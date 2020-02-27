@@ -5,17 +5,15 @@ use Symfony\Component\HttpClient\HttpClient;
 
 require_once 'vendor/autoload.php';
 
-$browser = new HttpBrowser(HttpClient::create([
-    'headers' => [
-        'User-agent' => 'O que o site precisa'
-    ]
-]));
+$browser = new HttpBrowser(HttpClient::create());
+
+$browser->setServerParameter('HTTP_USER_AGENT', 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)');
 
 $browser->request('GET', 'https://vitormattos.github.io/poc-lineageos-cellphone-list-statics//');
-$browser->clickLink('Login');
-$crawler = $browser->submitForm('Go', [
-    'username' => 'vitor@php.rio',
-    'password' => 'uma senha muito secreta'
-], 'GET');
-$crawler = $browser->back();
-var_dump($crawler->html());
+
+print_r($browser->getRequest());
+
+$browser->setServerParameter('HTTP_USER_AGENT', 'Dalvik/2.1.0 (Linux; U; Android 5.1.1; AFTT Build/LVY48F) CTV');
+$browser->request('GET', 'https://vitormattos.github.io/poc-lineageos-cellphone-list-statics//');
+
+print_r($browser->getRequest());
